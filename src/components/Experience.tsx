@@ -1,5 +1,11 @@
 import React from "react";
-import { OrbitControls, Center, useGLTF, useTexture } from "@react-three/drei";
+import {
+  Sparkles,
+  OrbitControls,
+  Center,
+  useGLTF,
+  useTexture,
+} from "@react-three/drei";
 
 const Experience: React.FC = (): JSX.Element => {
   const model = useGLTF("../model/portal.glb");
@@ -50,6 +56,14 @@ const Experience: React.FC = (): JSX.Element => {
           rotation={portalLight.rotation}
           scale={portalLight.scale}
         ></mesh>
+
+        <Sparkles
+          size={10}
+          scale={[5, 1, 7]}
+          position-y={1}
+          speed={0.5}
+          color={pastelYellow}
+        />
       </Center>
     </>
   );
