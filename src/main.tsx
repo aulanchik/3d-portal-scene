@@ -1,11 +1,23 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
+import { Canvas } from "@react-three/fiber";
+import { Experience } from "@/components";
+import "./styles.css";
 
 const rootElement = document.getElementById("root")!;
 
 ReactDOM.createRoot(rootElement).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <>
+    <color args={["#201919"]} attach="background" />
+    <Canvas
+      flat
+      camera={{
+        fov: 75,
+        near: 0.1,
+        far: 100,
+        position: [2, 4, 6],
+      }}
+    >
+      <Experience />
+    </Canvas>
+  </>,
 );
