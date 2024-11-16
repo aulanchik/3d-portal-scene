@@ -7,6 +7,7 @@ const rootElement = document.getElementById("root")!;
 
 ReactDOM.createRoot(rootElement).render(
   <Canvas
+    flat
     camera={{
       fov: 75,
       near: 0.1,
