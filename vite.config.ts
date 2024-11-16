@@ -9,7 +9,7 @@ export default defineConfig({
     react(),
     glsl(),
     restart({
-      restart: ["src/**/*.{js,jsx,ts,tsx}"],
+      restart: ["../public/**", "src/**/*.{js,jsx,ts,tsx}"],
     }),
     {
       name: "load+transform-as-jsx",
