@@ -1,47 +1,21 @@
-import React, { useRef } from "react";
-import * as THREE from "three";
+import React from "react";
 import {
   Sparkles,
   OrbitControls,
   Center,
   useGLTF,
   useTexture,
-  shaderMaterial,
 } from "@react-three/drei";
-import { useFrame, extend } from "@react-three/fiber";
-import vertexShader from "../shaders/portal/vertex.glsl";
-import fragmentShader from "../shaders/portal/fragment.glsl";
-
-const PortalMaterial: any = shaderMaterial(
-  {
-    uTime: 0,
-    uColorStart: new THREE.Color("#ff0000"),
-    uColorEnd: new THREE.Color("#ff00ff"),
-  },
-  fragmentShader,
-  vertexShader,
-);
-
-extend({ PortalMaterial });
 
 const Experience: React.FC = (): JSX.Element => {
   const model = useGLTF("../model/portal.glb");
   const bakedTexture = useTexture("../model/baked.jpg");
-
-  const portalMaterial = useRef<typeof PortalMaterial>();
-
-  useFrame((delta) => {
-    if (portalMaterial.current) {
-      portalMaterial.current.uTime += delta;
-    }
-  });
 
   const pastelYellow = "#ffffe5";
   const { baked, portalLight, poleLightA, poleLightB } = model.nodes;
 
   return (
     <>
-      <color args={["#201919"]} attach="background" />
       <OrbitControls makeDefault autoRotate />
       <Center>
         {/* Scene */}
@@ -80,7 +54,6 @@ const Experience: React.FC = (): JSX.Element => {
           position={portalLight.position}
           rotation={portalLight.rotation}
           scale={portalLight.scale}
-          ref={portalMaterial}
         />
 
         {/* Fireflies */}
