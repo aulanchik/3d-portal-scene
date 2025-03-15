@@ -6,8 +6,7 @@ import "./styles.css";
 const rootElement = document.getElementById("root")!;
 
 ReactDOM.createRoot(rootElement).render(
-  <Canvas
-    flat
+  <Canvas flat
     camera={{
       fov: 75,
       near: 0.1,
