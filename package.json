@@ -12,11 +12,11 @@
   },
   "dependencies": {
     "@react-three/drei": "^10.3.0",
-    "@react-three/fiber": "^8.18.0",
+    "@react-three/fiber": "^9.3.0",
     "r3f-perf": "^7.2.3",
-    "react": "18.3.1",
+    "react": "19.1.1",
     "react-dom": "19.1.1",
-    "three": "^0.178.0",
+    "three": "^0.180.0",
     "three-stdlib": "^2.35.14",
     "vite-plugin-glsl": "^1.3.3",
     "vite-plugin-restart": "^1.0.0"
@@ -24,10 +24,10 @@
   "devDependencies": {
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
-    "@types/three": "^0.178.1",
+    "@types/three": "^0.180.0",
     "@typescript-eslint/eslint-plugin": "^8.26.1",
     "@typescript-eslint/parser": "^8.26.1",
-    "@vitejs/plugin-react": "^4.3.4",
+    "@vitejs/plugin-react": "^5.0.2",
     "eslint": "^9.22.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
