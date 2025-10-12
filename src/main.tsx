@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom/client";
 import { Canvas } from "@react-three/fiber";
-import { Experience } from "@/components";
+import Experience from "@/components/Experience";
 import "./styles.css";
 
 const rootElement = document.getElementById("root")!;

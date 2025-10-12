@@ -12,11 +12,25 @@ interface ModelGLTF extends GLTF {
   };
 }
 
+const isModelGLTF = (gltf: any): gltf is ModelGLTF => {
+  return (
+    gltf && gltf.nodes &&
+    'baked' in gltf.nodes &&
+    'portalLight' in gltf.nodes &&
+    'poleLightA' in gltf.nodes &&
+    'poleLightB' in gltf.nodes
+  );
+};
+
 const Experience: React.FC = () => {
-  const gltf = useGLTF("../model/portal.glb") as ModelGLTF | unknown;
+  const gltf = useGLTF("../model/portal.glb");
   const texture = useTexture("../model/baked.jpg");
 
   const pastelYellow = "#ffffe5";
+
+  if (!isModelGLTF(gltf)) {
+    return <div>Loading...</div>
+  }
 
   return (
     <>
