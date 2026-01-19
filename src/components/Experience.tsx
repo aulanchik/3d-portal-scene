@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
 import * as THREE from 'three';
 import { OrbitControls, Center, useGLTF, useTexture, Sparkles } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import { GLTF } from 'three-stdlib';
+import portalVertexShader from '../shaders/portal/vertex.glsl';
+import portalFragmentShader from '../shaders/portal/fragment.glsl';
 
 interface ModelGLTF extends GLTF {
   nodes: {
@@ -23,13 +26,20 @@ const isModelGLTF = (gltf: any): gltf is ModelGLTF => {
 };
 
 const Experience: React.FC = () => {
-  const gltf = useGLTF("../model/portal.glb");
-  const texture = useTexture("../model/baked.jpg");
+  const gltf = useGLTF("/model/portal.glb");
+  const texture = useTexture("/model/baked.jpg");
+  const portalMaterialRef = useRef<THREE.ShaderMaterial>(null);
+
+  useFrame((state) => {
+    if (portalMaterialRef.current) {
+      portalMaterialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
+    }
+  });
 
   const pastelYellow = "#ffffe5";
 
   if (!isModelGLTF(gltf)) {
-    return <div>Loading...</div>
+    return null;
   }
 
   return (
@@ -48,7 +58,16 @@ const Experience: React.FC = () => {
           <meshBasicMaterial color={pastelYellow} />
         </mesh>
 
-        <mesh geometry={gltf.nodes.portalLight.geometry} position={gltf.nodes.portalLight.position} rotation={gltf.nodes.portalLight.rotation} scale={gltf.nodes.portalLight.scale} />
+        <mesh geometry={gltf.nodes.portalLight.geometry} position={gltf.nodes.portalLight.position} rotation={gltf.nodes.portalLight.rotation} scale={gltf.nodes.portalLight.scale}>
+          <shaderMaterial
+            ref={portalMaterialRef}
+            vertexShader={portalVertexShader}
+            fragmentShader={portalFragmentShader}
+            uniforms={{
+              uTime: { value: 0 },
+            }}
+          />
+        </mesh>
 
         <Sparkles size={10} scale={[5, 1, 7]} position-y={1} speed={0.5} color={pastelYellow} />
       </Center>
