@@ -1,10 +1,15 @@
 uniform float uTime;
-uniform vec3 uColorStart;
-uniform vec3 uColorEnd;
 
 varying vec2 vUv;
 
-//    Classic Perlin 3D Noise 
+// HSV to RGB conversion
+vec3 hsv2rgb(vec3 c) {
+    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+
+//    Classic Perlin 3D Noise
 //    by Stefan Gustavson
 //
 vec4 permute(vec4 x){ return mod(((x*34.0)+1.0)*x, 289.0); }
@@ -83,24 +88,25 @@ float cnoise(vec3 P)
 
 void main()
 {
-    // Displace the UV
+    // Displace the UV coordinates using noise
     vec2 displacedUv = vUv + cnoise(vec3(vUv * 5.0, uTime * 0.1));
 
-    // Perlin noise
-    float strength = cnoise(vec3(displacedUv * 5.0, uTime * 0.2));
+    // Calculate base noise value
+    float noiseValue = cnoise(vec3(displacedUv * 5.0, uTime * 0.2));
 
-    // Outer glow
-    float outerGlow = distance(vUv, vec2(0.5)) * 5.0 - 1.4;
-    strength += outerGlow;
+    // Add outer glow effect based on distance from center
+    float glowEffect = distance(vUv, vec2(0.5)) * 5.0 - 1.4;
+    noiseValue += glowEffect;
 
-    // Apply cool step
-    strength += step(- 0.2, strength) * 0.8;
+    // Apply step function for additional shaping
+    noiseValue += step(-0.2, noiseValue) * 0.8;
 
-    // // Clamp the value from 0 to 1
-    // strength = clamp(strength, 0.0, 1.0);
+    // Clamp the noise value to create the portal shape
+    float portalShape = clamp(noiseValue, 0.45, 1.0);
 
-    // Final color
-    vec3 color = mix(uColorStart, uColorEnd, strength);
+    // Generate rainbow color based on time and shape
+    float rainbowHue = fract(uTime * 0.1 + portalShape);
+    vec3 finalColor = hsv2rgb(vec3(rainbowHue, 1.0, 1.0));
 
-    gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = vec4(finalColor, 1.0);
 }
